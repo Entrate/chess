@@ -38,9 +38,9 @@ img:hover {
 .board {
   position: absolute;
   background-color: rgb(187, 155, 113);
-  max-height: calc(75vmin + 10em);
-  max-width: calc(80vmin + 10em);
-  width: calc(75vmin + 10em);
+  max-height: calc(70vmin + 10em);
+  max-width: min(70vmin + 10em, 100%);
+  width: calc(70vmin + 10em);
   aspect-ratio: 1 / 1;
   top: 50%;
   left: 50%;
