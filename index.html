@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chess</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="board">
+    <div class="row row-8">
+      <div class="tile tile-a"><img class="draggable black" src="images/rookB.png" alt="a black rook"></div>
+      <div class="tile tile-b"><img class="draggable black" src="images/knightB.png" alt="a black knight"></div>
+      <div class="tile tile-c"><img class="draggable black" src="images/bishopB.png" alt="a black bishop"></div>
+      <div class="tile tile-d"><img class="draggable black" src="images/queenB.png" alt="a black queen"></div>
+      <div class="tile tile-e"><img class="draggable black" src="images/kingB.png" alt="a black knight"></div>
+      <div class="tile tile-f"><img class="draggable black" src="images/bishopB.png" alt="a black bishop"></div>
+      <div class="tile tile-g"><img class="draggable black" src="images/knightB.png" alt="a black knight"></div>
+      <div class="tile tile-h"><img class="draggable black" src="images/rookB.png" alt="a black rook"></div>
+    </div>
+    <div class="row row-7">
+      <div class="tile tile-a"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-b"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-c"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-d"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-e"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-f"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-g"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+      <div class="tile tile-h"><img src="images/pawnB.png" alt="a black pawn"  class="draggable black"></div>
+    </div>
+    <div class="row row-6">
+      <div class="tile tile-a"></div>
+      <div class="tile tile-b"></div>
+      <div class="tile tile-c"></div>
+      <div class="tile tile-d"></div>
+      <div class="tile tile-e"></div>
+      <div class="tile tile-f"></div>
+      <div class="tile tile-g"></div>
+      <div class="tile tile-h"></div>
+    </div>
+    <div class="row row-5">
+      <div class="tile tile-a"></div>
+      <div class="tile tile-b"></div>
+      <div class="tile tile-c"></div>
+      <div class="tile tile-d"></div>
+      <div class="tile tile-e"></div>
+      <div class="tile tile-f"></div>
+      <div class="tile tile-g"></div>
+      <div class="tile tile-h"></div>
+    </div>
+    <div class="row row-4">
+      <div class="tile tile-a"></div>
+      <div class="tile tile-b"></div>
+      <div class="tile tile-c"></div>
+      <div class="tile tile-d"></div>
+      <div class="tile tile-e"></div>
+      <div class="tile tile-f"></div>
+      <div class="tile tile-g"></div>
+      <div class="tile tile-h"></div>
+    </div>
+    <div class="row row-3">
+      <div class="tile tile-a"></div>
+      <div class="tile tile-b"></div>
+      <div class="tile tile-c"></div>
+      <div class="tile tile-d"></div>
+      <div class="tile tile-e"></div>
+      <div class="tile tile-f"></div>
+      <div class="tile tile-g"></div>
+      <div class="tile tile-h"></div>
+    </div>
+    <div class="row row-2">
+      <div class="tile tile-a"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-b"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-c"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-d"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-e"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-f"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-g"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+      <div class="tile tile-h"><img src="images/pawn.png" alt="a white pawn"  class="draggable white"></div>
+    </div>
+    <div class="row row-1">
+      <div class="tile tile-a">
+        <p>a</p>
+        <img class="draggable white" src="images/rook.png" alt="a white rook">
+      </div>
+      <div class="tile tile-b">
+        <p>b</p>
+        <img class="draggable white" src="images/knight.png" alt="a white knight">
+        </div>
+      <div class="tile tile-c">
+        <p>c</p>
+        <img class="draggable white" src="images/bishop.png" alt="a white bishop">
+      </div>
+      <div class="tile tile-d">
+        <p>d</p>
+        <img class="draggable white" src="images/queen.png" alt="a white queen">
+      </div>
+      <div class="tile tile-e">
+        <p>e</p>
+        <img class="draggable white" src="images/king.png" alt="a white king">
+      </div>
+      <div class="tile tile-f">
+        <p>f</p>
+        <img class="draggable white" src="images/bishop.png" alt="a white bishop">
+      </div>  
+      <div class="tile tile-g">
+        <p>g</p>
+        <img class="draggable white" src="images/knight.png" alt="a white knight">
+      </div>
+      <div class="tile tile-h">
+        <p>h</p>
+        <img class="draggable white" src="images/rook.png" alt="a white rook">
+      </div>
+    </div>
+    
+  </div>
+
+
+
+  <script src="script.js"></script>
+</body>
+</html>
