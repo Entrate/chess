@@ -4,6 +4,48 @@ const blackPieces = document.querySelectorAll('.black')
 const whitePieces = document.querySelectorAll('.white')
 let pieceStartingSquare;
 let isValidCapture = true;
+let pieceStaringSquares = {};
+
+const turnChange = (piece) => {
+  if(pieceStartingSquare != piece.parentElement){ 
+    if(piece.classList.contains('white')){
+      whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
+      blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
+    } else {
+      blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",false))
+      whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",true))
+    }
+  }
+}
+const checkIfCapturedPieceIsNotYourOwn = (tile,piece) => {
+        if(piece.classList.contains('white') && tile.children[0].classList.contains('black') || piece.classList.contains('black') && tile.children[0].classList.contains('white')){
+          tile.removeChild(tile.children[0])
+          return true
+        } else {
+          pieceStartingSquare.appendChild(piece)
+          return false
+        }
+      }
+    
+const getStartingSquares = () => {
+  let i = 0
+  pieces.forEach(piece => {
+    i++
+  pieceStaringSquares[i] = piece.parentElement
+})
+}
+const resetBoard = () => {
+  let i = 0
+  pieces.forEach(piece => {
+    i++
+    pieceStaringSquares[i].appendChild(piece)
+    blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",false))
+    whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",true))
+  })
+}
+getStartingSquares()
+
+
 pieces.forEach(piece => {
   piece.addEventListener('dragstart', (e) => {
     piece.classList.add('dragging')
@@ -34,24 +76,4 @@ tiles.forEach(tile => {
     })
   })
 })
-const turnChange = (piece) => {
-  if(pieceStartingSquare != piece.parentElement){ 
-    if(piece.classList.contains('white')){
-      whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
-      blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
-    } else {
-      blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",false))
-      whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",true))
-    }
-  }
-}
-const checkIfCapturedPieceIsNotYourOwn = (tile,piece) => {
-        if(piece.classList.contains('white') && tile.children[0].classList.contains('black') || piece.classList.contains('black') && tile.children[0].classList.contains('white')){
-          tile.removeChild(tile.children[0])
-          return true
-        } else {
-          pieceStartingSquare.appendChild(piece)
-          return false
-        }
-      }
-    
+
