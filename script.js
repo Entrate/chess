@@ -69,10 +69,9 @@ const pawnCaptures = (color,tile,piece,ogRow,currentRow,ogcol,currcol) => {
   if(color == 'black') mutltiplier = -1
   console.log(`current: ${currcol + 1} og: ${ogcol}`)
   if(ogRow + 1 * mutltiplier == currentRow && (currcol + 1 == ogcol || currcol - 1 == ogcol)){
-    console.log('success')
+    piece.classList.add('moved')
     return true
   } else {
-    console.log('fail')
     pieceStartingSquare.appendChild(piece)
     return false
   }
