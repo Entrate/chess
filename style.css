@@ -22,10 +22,11 @@ img{
   z-index: 100;
   position: absolute;
   left: -3.5%;
+  user-select: none;
 }
 img:hover {
   cursor: grab;
-  user-select: none;
+  
 }
 .lighten {
   filter: brightness(50%);

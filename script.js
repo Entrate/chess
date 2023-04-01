@@ -11,8 +11,8 @@ let turnCounter = 0
 let draggedPiece
 
 const turnChange = (piece) => {
-  if(pieceStartingSquare != piece.parentElement){ 
     if(piece.classList.contains('white')){
+      console.log('isran2')
       whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
       blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
     } else {
@@ -20,7 +20,6 @@ const turnChange = (piece) => {
       whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",true))
       turnCounter++
     }
-  }
 }
 
 const pawnMovement = (color,tile,piece,ogRow,currentRow) => {
@@ -48,27 +47,50 @@ const pawnMovement = (color,tile,piece,ogRow,currentRow) => {
       return false
     }
 }
+const kingMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
+  if((ogRow + 1 == currentRow || ogRow == currentRow || ogRow - 1 == currentRow) && (currcol + 1 == ogcol || currcol - 1 == ogcol || currcol == ogcol)){
+    piece.classList.add('moved')
+    return true
+  } else {
+    pieceStartingSquare.appendChild(piece)
+    return false
+  }
+}
 
 const checkIfPieceCanMoveToThatTile = (tile, piece) => {
-   let originalRowAsString = pieceStartingSquare.parentElement.classList[1]
-   let originalRowAsNumber = Number(originalRowAsString[originalRowAsString.length - 1])
-   let currentRowAsString = tile.parentElement.classList[1]
-   let currentRowAsNumber = Number(currentRowAsString[currentRowAsString.length - 1])
-
+  let originalRowAsNumber = Number(pieceStartingSquare.parentElement.classList[1][pieceStartingSquare.parentElement.classList[1].length - 1])
+  let currentRowAsNumber = Number(tile.parentElement.classList[1][tile.parentElement.classList[1].length - 1])
+  let originalCollum = tileCodes[pieceStartingSquare.classList[1][pieceStartingSquare.classList[1].length - 1]]
+  let currentCollum = tileCodes[tile.classList[1][tile.classList[1].length - 1]]
   if(piece.classList.contains('white')){
-    if(pawnMovement('white',tile,piece,originalRowAsNumber,currentRowAsNumber) && piece.classList.contains('pawn')) return true
+    if(pawnMovement('white',tile,piece,originalRowAsNumber,currentRowAsNumber) && piece.classList.contains('pawn')){
+      return true
+    } 
+    else if(piece.classList.contains('king')){
+      return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } 
     else return false
   } else {
     if(pawnMovement('black',tile,piece,originalRowAsNumber,currentRowAsNumber) && piece.classList.contains('pawn')) return true
+    else if(piece.classList.contains('king')) return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
   }
 }
 
-const pawnCaptures = (color,tile,piece,ogRow,currentRow,ogcol,currcol) => {
+const pawnCaptures = (color,piece,ogRow,currentRow,ogcol,currcol) => {
   let mutltiplier = 1
   if(color == 'black') mutltiplier = -1
-  console.log(`current: ${currcol + 1} og: ${ogcol}`)
   if(ogRow + 1 * mutltiplier == currentRow && (currcol + 1 == ogcol || currcol - 1 == ogcol)){
+    
+    piece.classList.add('moved')
+    return true
+  } else {
+    pieceStartingSquare.appendChild(piece)
+    return false
+  }
+}
+const kingCaptures = (piece,ogRow,currentRow,ogcol,currcol) => {
+  if((ogRow + 1 == currentRow || ogRow == currentRow || ogRow - 1 == currentRow) && (currcol + 1 == ogcol || currcol - 1 == ogcol || currcol == ogcol)){
     piece.classList.add('moved')
     return true
   } else {
@@ -82,23 +104,25 @@ const checkIfYouCanCapture = (tile,piece) => {
   let currentRowAsNumber = Number(tile.parentElement.classList[1][tile.parentElement.classList[1].length - 1])
   let originalCollum = tileCodes[pieceStartingSquare.classList[1][pieceStartingSquare.classList[1].length - 1]]
   let currentCollum = tileCodes[tile.classList[1][tile.classList[1].length - 1]]
-
   if(piece.classList.contains('white')){
     if(piece.classList.contains('pawn')){
-      return pawnCaptures('white',tile,piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-    } else return false
+      return pawnCaptures('white',piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else if(piece.classList.contains('king')) return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else return false
 
   } else {
     if(piece.classList.contains('pawn')){
-      return pawnCaptures('black',tile,piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-    } else return false
-
+      return pawnCaptures('black',piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else if(piece.classList.contains('king')){
+      return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else{
+      return false
+     }
   }
 }
 
 const checkIfCapturedPieceIsNotYourOwn = (tile,piece) => {
 if(piece.classList.contains('white') && tile.children[0].classList.contains('black') || piece.classList.contains('black') && tile.children[0].classList.contains('white')){
-
     return true
 } else {
     pieceStartingSquare.appendChild(piece)
@@ -158,12 +182,21 @@ pieces.forEach(piece => {
   currentTile.classList.remove('lighten')
   if(currentTile.children.length >= 2){
     if(checkIfCapturedPieceIsNotYourOwn(currentTile,piece) && checkIfYouCanCapture(currentTile,piece)){
-      currentTile.removeChild(currentTile.children[0])
-      turnChange(piece)
-    }     
+      console.log('captured')
+        currentTile.removeChild(currentTile.children[0])
+        turnChange(piece)
+    } else {
+      pieceStartingSquare.appendChild(piece)
+    }
   } else if(checkIfPieceCanMoveToThatTile(currentTile, piece)){
+    console.log('moved')
+    currentTile.appendChild(piece)
     turnChange(piece)
-  } else pieceStartingSquare.appendChild(piece)
+  } else{
+    console.log('no')
+    pieceStartingSquare.appendChild(piece)
+  } 
+
 })
 })
 
