@@ -159,6 +159,7 @@ const resetBoard = () => {
 
 getStartingSquares()
 
+
 pieces.forEach(piece => {
   piece.addEventListener('dragstart', (e) => {
     piece.classList.add('dragging')
