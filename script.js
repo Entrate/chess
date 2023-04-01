@@ -12,7 +12,6 @@ let draggedPiece
 
 const turnChange = (piece) => {
     if(piece.classList.contains('white')){
-      console.log('isran2')
       whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
       blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
     } else {
@@ -22,12 +21,21 @@ const turnChange = (piece) => {
     }
 }
 
-const pawnMovement = (color,tile,piece,ogRow,currentRow) => {
+const pawnMovement = (color,tile,piece,ogRow,currentRow,ogcol,currcol) => {
     let mutltiplier = 1
-    if(color == 'black') mutltiplier = -1
+    const thirRow = document.querySelector('.row-3')
+    const sixthRow = document.querySelector('.row-6')
+    let rowInFrontOfPawn = thirRow
+    if(color == 'black'){
+      rowInFrontOfPawn = sixthRow 
+      mutltiplier = -1
+    }
+    
+    let insidesOfRowInFrontOfPawns = rowInFrontOfPawn.children[ogcol - 1].children.length
+    
     if(tile.classList[1] == pieceStartingSquare.classList[1]){
       if(!piece.classList.contains('moved')){
-        if(ogRow + 1 * mutltiplier == currentRow || ogRow + 2 * mutltiplier == currentRow){
+        if(ogRow + 1 * mutltiplier == currentRow || (ogRow + 2 * mutltiplier == currentRow && insidesOfRowInFrontOfPawns == 0)){
           piece.classList.add('moved')
           return true
         } else{
@@ -63,7 +71,7 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
   let originalCollum = tileCodes[pieceStartingSquare.classList[1][pieceStartingSquare.classList[1].length - 1]]
   let currentCollum = tileCodes[tile.classList[1][tile.classList[1].length - 1]]
   if(piece.classList.contains('white')){
-    if(pawnMovement('white',tile,piece,originalRowAsNumber,currentRowAsNumber) && piece.classList.contains('pawn')){
+    if(pawnMovement('white',tile,piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum) && piece.classList.contains('pawn')){
       return true
     } 
     else if(piece.classList.contains('king')){
@@ -71,7 +79,7 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
     } 
     else return false
   } else {
-    if(pawnMovement('black',tile,piece,originalRowAsNumber,currentRowAsNumber) && piece.classList.contains('pawn')) return true
+    if(pawnMovement('black',tile,piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum) && piece.classList.contains('pawn')) return true
     else if(piece.classList.contains('king')) return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
   }
