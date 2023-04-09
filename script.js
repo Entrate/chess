@@ -12,7 +12,7 @@ let turnCounter = 0
 let draggedPiece
 
 const turnChange = (piece) => {
-  return
+
     if(piece.classList.contains('white')){
       whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
       blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
@@ -188,6 +188,50 @@ const bishopMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
   pieceStartingSquare.appendChild(piece)
   return false
 }
+const rookMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
+  for (let i = 0; i < 10; i++){
+    if(currcol == ogcol && currentRow == ogRow){
+      pieceStartingSquare.appendChild(piece)
+      return false
+    } else if((currentRow == ogRow + i || currentRow == ogRow - i) && currcol == ogcol || (currcol == ogcol + i || currcol == ogcol - i) && currentRow == ogRow){
+      let thing
+      const rows = ogRow - currentRow
+      const cols = ogcol - currcol
+      for(let i = 0; i <= Math.abs(rows) - 2;i++){
+        if(rows > 0) {
+            thing = document.querySelector(`.row-${currentRow + i + 1}`)
+            if(thing.children[currcol - 1].children[0] != undefined){
+              return false
+            }
+        } else {
+            thing = document.querySelector(`.row-${currentRow - i - 1}`)
+            if(thing.children[currcol - 1].children[0] != undefined){
+              return false
+            }
+        }
+      }
+      for(let i = 0; i <= Math.abs(cols) - 2;i++){
+        if(cols > 0) {
+            thing = document.querySelectorAll(`.tile-${tileCodes2[currcol + i + 1]}`)
+            arraything = Array.from(thing).reverse();
+            if(arraything[currentRow - 1].children[0] != undefined){
+              return false
+            }
+        } else {
+            thing = document.querySelectorAll(`.tile-${tileCodes2[currcol - i - 1]}`)
+            arraything = Array.from(thing).reverse();
+            if(arraything[currentRow - 1].children[0] != undefined){
+              return false
+            }
+        }
+      }
+      return true
+    }
+  }
+  pieceStartingSquare.appendChild(piece)
+  return false
+}
+
 
 const checkIfPieceCanMoveToThatTile = (tile, piece) => {
   let originalRowAsNumber = Number(pieceStartingSquare.parentElement.classList[1][pieceStartingSquare.parentElement.classList[1].length - 1])
@@ -204,6 +248,8 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
       return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     } else if(piece.classList.contains('bishop')){
       return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else if(piece.classList.contains('rook')){
+      return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     }
     else return false
   } else {
@@ -211,6 +257,7 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
     else if(piece.classList.contains('king')) return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
   }
 }
@@ -248,6 +295,7 @@ const checkIfYouCanCapture = (tile,piece) => {
     } else if(piece.classList.contains('king')) return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
 
   } else {
@@ -255,9 +303,9 @@ const checkIfYouCanCapture = (tile,piece) => {
       else if(piece.classList.contains('king'))return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
       else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
       else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-      else{
-      return false
-     }
+      else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else return false
+     
   }
 }
 
@@ -306,7 +354,6 @@ tiles.forEach(tile => {
     const piece = document.querySelector('.dragging')
     tile.classList.add('lighten')
     tile.appendChild(piece)
-
 
   })
 
