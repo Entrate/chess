@@ -231,6 +231,17 @@ const rookMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
   pieceStartingSquare.appendChild(piece)
   return false
 }
+const knightMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
+  console.log(currentRow + ' ' + ogRow)
+  if((currcol == ogcol + 1 || currcol == ogcol - 1) && (currentRow == ogRow + 2 || currentRow == ogRow - 2) || 
+  (currentRow == ogRow + 1 || currentRow == ogRow - 1) && (currcol == ogcol + 2 || currcol == ogcol - 2)){
+    return true
+  } else {
+    pieceStartingSquare.appendChild(piece)
+    return false
+  }
+  
+}
 
 
 const checkIfPieceCanMoveToThatTile = (tile, piece) => {
@@ -250,6 +261,8 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
       return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     } else if(piece.classList.contains('rook')){
       return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else if(piece.classList.contains('knight')){
+      return knightMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     }
     else return false
   } else {
@@ -258,6 +271,7 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('knight')) return knightMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
   }
 }
@@ -296,6 +310,7 @@ const checkIfYouCanCapture = (tile,piece) => {
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('knight')) return knightMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
 
   } else {
@@ -304,6 +319,7 @@ const checkIfYouCanCapture = (tile,piece) => {
       else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
       else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
       else if(piece.classList.contains('rook')) return rookMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else if(piece.classList.contains('knight')) return knightMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
       else return false
      
   }
@@ -384,7 +400,6 @@ pieces.forEach(piece => {
     console.log('no')
     pieceStartingSquare.appendChild(piece)
   } 
-
 })
 })
 
