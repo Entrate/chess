@@ -12,6 +12,7 @@ let turnCounter = 0
 let draggedPiece
 
 const turnChange = (piece) => {
+  return
     if(piece.classList.contains('white')){
       whitePieces.forEach(whitePiece => whitePiece.setAttribute("draggable",false))
       blackPieces.forEach(blackPiece => blackPiece.setAttribute("draggable",true))
@@ -145,6 +146,48 @@ const queenMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
     }
   }
 }
+const bishopMovement = (piece,ogRow,currentRow,ogcol,currcol) => {
+  for (let i = 0; i < 10; i++){
+      if(currcol == ogcol && currentRow == ogRow){
+        pieceStartingSquare.appendChild(piece)
+        return false
+      } else if((currentRow == ogRow + i || currentRow == ogRow - i) && (currcol == ogcol + i || currcol == ogcol - i)){
+        let thing
+        const rows = ogRow - currentRow
+        const cols = ogcol - currcol
+        for(let i = 1; i <= Math.abs(rows) - 1; i++){
+          thing = document.querySelectorAll(`.tile-${tileCodes2[currcol + i]}`)
+          arraything = Array.from(thing).reverse()
+          if(cols > 0) {
+            if(rows < 0 ){
+              if(arraything[currentRow - 1 - i].children[0] != undefined){
+                return false
+              }
+            } else {
+              if(arraything[currentRow - 1 + i].children[0] != undefined){
+                return false
+              }
+            }
+          } else {
+              thing = document.querySelectorAll(`.tile-${tileCodes2[currcol - i]}`)
+              arraything = Array.from(thing).reverse();
+            if(rows < 0 ){
+              if(arraything[currentRow - 1 - i].children[0] != undefined){
+                return false
+              }
+              } else {
+              if(arraything[currentRow - 1 + i].children[0] != undefined){
+                return false
+              }
+            }
+          }
+        }
+        return true
+      }
+  }
+  pieceStartingSquare.appendChild(piece)
+  return false
+}
 
 const checkIfPieceCanMoveToThatTile = (tile, piece) => {
   let originalRowAsNumber = Number(pieceStartingSquare.parentElement.classList[1][pieceStartingSquare.parentElement.classList[1].length - 1])
@@ -159,12 +202,15 @@ const checkIfPieceCanMoveToThatTile = (tile, piece) => {
       return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     } else if(piece.classList.contains('queen')){
       return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    } else if(piece.classList.contains('bishop')){
+      return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     }
     else return false
   } else {
     if(pawnMovement('black',tile,piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum) && piece.classList.contains('pawn')) return true
     else if(piece.classList.contains('king')) return kingMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
   }
 }
@@ -201,16 +247,15 @@ const checkIfYouCanCapture = (tile,piece) => {
       return pawnCaptures('white',piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     } else if(piece.classList.contains('king')) return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+    else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
     else return false
 
   } else {
-    if(piece.classList.contains('pawn')){
-      return pawnCaptures('black',piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-    } else if(piece.classList.contains('king')){
-      return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-    } else if(piece.classList.contains('queen')){
-      return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
-    } else{
+    if(piece.classList.contains('pawn')) return pawnCaptures('black',piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else if(piece.classList.contains('king'))return kingCaptures(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else if(piece.classList.contains('queen')) return queenMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else if(piece.classList.contains('bishop')) return bishopMovement(piece,originalRowAsNumber,currentRowAsNumber,originalCollum,currentCollum)
+      else{
       return false
      }
   }
